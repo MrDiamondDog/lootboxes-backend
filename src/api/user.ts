@@ -4,11 +4,11 @@ import { prisma } from '../prisma';
 export default async function (request: VercelRequest, response: VercelResponse) {
   const { id } = request.query;
 
-  if (!id || !(typeof id === "string")) response.status(400).send('Missing id');
+  if (!id) response.status(400).send('Missing id');
 
-  return response.status(200).send(prisma.user.findUnique({
+  return response.status(200).json(await prisma.user.findUnique({
     where: {
-      id: id as string,
+      discordId: id as string,
     },
   }));
 }
